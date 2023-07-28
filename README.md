@@ -4,7 +4,7 @@
 
 You have discovered a vulnerability that enables you to read internal server files, similar to the `readfile($input)` function in PHP.
 
-To exploit this vulnerability, you dump the sitemap of your Burp Suite, and then filter all the `.php` files to download them.
+You dump the sitemap of your Burp Suite, and then filter all the `.php` files to download them.
 
 However, be aware that these files might also include or reference other `.php` files in various ways, such as through `include`, `require`, `href`, `form action`, `require_once`, comments, etc.
 
